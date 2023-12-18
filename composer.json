@@ -1,0 +1,17 @@
+{
+  "name": "khaled308/job-navigator",
+  "description": "Job Listing Application",
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "App\\": "App/"
+    }
+  },
+  "authors": [
+    {
+      "name": "khaled308",
+      "email": "khaledgaballa4@gmail.com"
+    }
+  ],
+  "require": {}
+}
