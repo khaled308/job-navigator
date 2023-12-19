@@ -2,7 +2,7 @@
 
 function loadView($view, $data = []) {
     extract($data);
-    $path = __DIR__ . "/../views/$view.php";
+    $path = __DIR__ . "/../App/views/$view.php";
     require_once $path;
 }
 

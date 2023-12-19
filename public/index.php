@@ -4,11 +4,10 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../Framework/helpers.php';
 
 $app = new Framework\App();
-
-// routes
 $router = $app->getRouter();
 
-$router->add('GET','/', ['\App\Controllers\HomeController', 'index']);
+// routes
+require_once __DIR__ .  '/../App/routes.php';
 
 // run app
 $app->run();
