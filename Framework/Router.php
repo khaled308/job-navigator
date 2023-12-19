@@ -5,6 +5,7 @@ namespace Framework;
 class Router
 {
     private $routes = [];
+    private $errorPage = '404';
 
     public function add(string $method, string $path, array $controller) : void {
         $path = $this->normalizeUri($path);
@@ -21,7 +22,7 @@ class Router
             $controller = new $class;
             $controller->{$method}();
         } else {
-            echo '404';
+            $this->displayErrorPage();
         }
     }
 
@@ -30,6 +31,24 @@ class Router
         $uri =  "/{$uri}/";
         $uri = preg_replace('/\/+/', '/', $uri);
         return $uri;
+    }
+
+    public function errorPage($page) {
+        $this->errorPage = $page;
+    }
+
+    private function displayErrorPage() {
+        $file = __DIR__ . '/../App/views/' . $this->errorPage . '.php';
+        http_response_code(404);
+
+        if (file_exists($file)){
+            require_once $file;
+            exit;
+        }
+
+        else {
+            echo '404';
+        }
     }
 
 }
