@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controllers;
+use App\Validations\JobValidation;
 use Framework\Database;
+use Framework\Validation;
 
 class JobController {
     private $db;
@@ -47,6 +49,14 @@ class JobController {
 
         $data = array_map('sanitize', $data);
 
-        dd($data);
+        $errors = Validation::validate($data, ['title' => 'required,min_length=5', 'description' => 'required,min_length=15']);
+
+        if (!empty($errors)){
+            loadView('post-job', ['errors' => $errors, 'data' => $data]);
+        }
+
+        else {
+
+        }
     }
 }

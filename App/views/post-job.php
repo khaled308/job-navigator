@@ -13,12 +13,18 @@
           <h2 class="text-2xl font-bold mb-6 text-center text-gray-500">
             Job Info
           </h2>
+          <?php if (isset($errors)): ?>
+            <?php foreach($errors as $error): ?>
+              <div class="message bg-red-100 px-4 my-3"><?= $error ?></div>
+            <?php endforeach ?>
+          <?php endif ?>
           <div class="mb-4">
             <input
               type="text"
               name="title"
               placeholder="Job Title"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['title'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -26,7 +32,7 @@
               name="description"
               placeholder="Job Description"
               class="w-full px-4 py-2 border rounded focus:outline-none"
-            ></textarea>
+            ><?= $data['description'] ?? '' ?></textarea>
           </div>
           <div class="mb-4">
             <input
@@ -34,6 +40,7 @@
               name="salary"
               placeholder="Annual Salary"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['salary'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -42,6 +49,7 @@
               name="requirements"
               placeholder="Requirements"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['requirements'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -50,6 +58,7 @@
               name="benefits"
               placeholder="Benefits"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['benefits'] ?? '' ?>"
             />
           </div>
           <h2 class="text-2xl font-bold mb-6 text-center text-gray-500">
@@ -61,6 +70,7 @@
               name="company"
               placeholder="Company Name"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['company'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -69,6 +79,7 @@
               name="address"
               placeholder="Address"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['address'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -77,6 +88,7 @@
               name="city"
               placeholder="City"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['city'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -85,6 +97,7 @@
               name="state"
               placeholder="State"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['state'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -93,6 +106,7 @@
               name="phone"
               placeholder="Phone"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['phone'] ?? '' ?>"
             />
           </div>
           <div class="mb-4">
@@ -101,6 +115,7 @@
               name="email"
               placeholder="Email Address For Applications"
               class="w-full px-4 py-2 border rounded focus:outline-none"
+              value="<?= $data['email'] ?? '' ?>"
             />
           </div>
           <button
