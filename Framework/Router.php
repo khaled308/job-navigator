@@ -6,6 +6,8 @@ class Router
 {
     private $routes = [];
     private $errorPage = '404';
+    private $queries = [];
+    private $params = [];
 
     public function add(string $method, string $path, array $controller) : void {
         $path = $this->normalizeUri($path);
@@ -16,15 +18,23 @@ class Router
     public function dispatch(string $method, string $uri) {
         $uri = $this->normalizeUri($uri);
         $method = strtolower($method);
-        $query = $this->extractQueries($uri);
+        $this->extractQueries($uri);
         $uri = strtok($uri, '?');
-  
-        [$class, $method] = $this->routes[$method][$uri] ?? null;
+        $route = $this->extractParams($method, $uri);
+        
 
-        if ($class && $method) {
+        [$class, $fn] = $this->routes[$method][$uri] ?? null;
+
+        if (!$class && !$fn && $route) {
+            [$class, $fn] = $this->routes[$method][$route] ?? null;
+        }
+
+
+        if ($class && $fn) {
             $controller = new $class;
-            $controller->{$method}();
-        } else {
+            $controller->{$fn}($this->params, $this->queries);
+        } 
+        else {
             $this->displayErrorPage();
         }
     }
@@ -40,19 +50,48 @@ class Router
         $uri =trim($uri, '/');
         $pos = strpos($uri, '?');
 
-        if ($pos === false) {
-            return [];
+        if ($pos !== false) {
+            $keys = explode('&', substr($uri, $pos + 1));
+    
+            foreach ($keys as $key) {
+                [$k, $v] = explode('=', $key);
+                $this->queries[$k] = $v;
+            }
+        }
+    }
+
+    private function extractParams($method, $uri) {
+        $routes = $this->routes[$method] ?? [];
+        $uri = explode('/', trim($uri, "/"));
+   
+        foreach ($routes as $route => $controller) {
+            $routeElements = explode('/', trim($route, "/"));
+            
+            if (count($routeElements ) !== count($uri)) {
+                continue;
+            }
+            
+            $this->params = [];
+
+            for ($i = 0; $i < count($routeElements); $i++) {
+                if (strpos($routeElements [$i], ':') !== false) {
+                    $key = str_replace(':', '', $routeElements [$i]);
+                    $this->params[$key] = $uri[$i];
+                }
+
+
+                else if ($routeElements [$i] !== $uri[$i]) {
+                    $this->params = [];
+                    break;
+                }
+            }
+
+            if (count($this->params) > 0) {
+                return $route;
+            }
         }
 
-        $keys = explode('&', substr($uri, $pos + 1));
-        $queries = [];
-
-        foreach ($keys as $key) {
-            [$k, $v] = explode('=', $key);
-            $queries[$k] = $v;
-        }
-
-        return $queries;
+        return null;
     }
 
     public function errorPage($page) {

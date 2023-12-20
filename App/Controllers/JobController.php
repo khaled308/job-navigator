@@ -21,7 +21,8 @@ class JobController {
         loadView('post-job');
     }
 
-    public function show($jobId) {
+    public function show($params = [], $queries = []) {
+        $jobId = $params['job'];
         $job = $this->db->query(
             'SELECT * FROM jobs WHERE id = ?',
             [$jobId]
