@@ -27,6 +27,12 @@ class JobController {
             'SELECT * FROM jobs WHERE id = ?',
             [$jobId]
         )->fetch();
+        
+        if (!$job) {
+            http_response_code(404);
+            loadView('error');
+            exit();
+        }
 
         loadView('details', ['job' => $job]);
     }
