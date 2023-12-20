@@ -16,6 +16,9 @@ class Router
     public function dispatch(string $method, string $uri) {
         $uri = $this->normalizeUri($uri);
         $method = strtolower($method);
+        $query = $this->extractQueries($uri);
+        $uri = strtok($uri, '?');
+  
         [$class, $method] = $this->routes[$method][$uri] ?? null;
 
         if ($class && $method) {
@@ -31,6 +34,25 @@ class Router
         $uri =  "/{$uri}/";
         $uri = preg_replace('/\/+/', '/', $uri);
         return $uri;
+    }
+
+    private function extractQueries(string $uri) {
+        $uri =trim($uri, '/');
+        $pos = strpos($uri, '?');
+
+        if ($pos === false) {
+            return [];
+        }
+
+        $keys = explode('&', substr($uri, $pos + 1));
+        $queries = [];
+
+        foreach ($keys as $key) {
+            [$k, $v] = explode('=', $key);
+            $queries[$k] = $v;
+        }
+
+        return $queries;
     }
 
     public function errorPage($page) {
