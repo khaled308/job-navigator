@@ -36,4 +36,17 @@ class JobController {
 
         loadView('details', ['job' => $job]);
     }
+
+    public function store() {
+        $allowedFields = [
+            'title', 'description', 'salary', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email', 'requirements', 'benefits'
+        ];
+
+        $data = array_intersect_key($_POST, array_flip($allowedFields));
+        $data['user_id'] = 1;
+
+        $data = array_map('sanitize', $data);
+
+        dd($data);
+    }
 }
