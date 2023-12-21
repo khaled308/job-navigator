@@ -9,7 +9,7 @@
         Back To Listings
       </a>
       <div class="flex space-x-4 ml-4">
-        <a href="/edit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Edit</a>
+        <a href="/listings/<?= $job['id'] ?>/edit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Edit</a>
         <!-- Delete Form -->
         <form method="POST">
           <button type="submit" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
@@ -19,12 +19,12 @@
       </div>
     </div>
         <div class="p-4">
-          <h2 class="text-xl font-semibold"><?= $data['job']['title'] ?></h2>
+          <h2 class="text-xl font-semibold"><?= $job['title'] ?></h2>
           <p class="text-gray-700 text-lg mt-2">
-            <?= $data['job']['description'] ?>
+            <?= $job['description'] ?>
           </p>
           <ul class="my-4 bg-gray-100 p-4">
-            <li class="mb-2"><strong>Salary:</strong> $<?= $data['job']['salary'] ?></li>
+            <li class="mb-2"><strong>Salary:</strong> $<?= $job['salary'] ?></li>
             <li class="mb-2">
               <strong>Location:</strong> New York
               <span
@@ -34,7 +34,7 @@
             </li>
             <li class="mb-2">
               <strong>Tags:</strong>
-              <?= $data['job']['tags'] ?>
+              <?= $job['tags'] ?>
             </li>
           </ul>
         </div>
@@ -48,17 +48,17 @@
           Job Requirements
         </h3>
         <p>
-          <?= $data['job']['requirements'] ?>
+          <?= $job['requirements'] ?>
         </p>
         <h3 class="text-lg font-semibold mt-4 mb-2 text-blue-500">Benefits</h3>
-        <p><?= $data['job']['benefits'] ?></p>
+        <p><?= $job['benefits'] ?></p>
       </div>
       <p class="my-5">
         Put "Job Application" as the subject of your email and attach your
         resume.
       </p>
       <a
-        href="mailto:<?= $data['job']['email'] ?>"
+        href="mailto:<?= $job['email'] ?>"
         class="block w-full text-center px-5 py-2.5 shadow-sm rounded border text-base font-medium cursor-pointer text-indigo-700 bg-indigo-100 hover:bg-indigo-200"
       >
         Apply Now

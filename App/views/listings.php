@@ -15,8 +15,11 @@
     <section>
       <div class="container mx-auto p-4 mt-4">
         <div class="text-center text-3xl mb-4 font-bold border border-gray-300 p-3">All Jobs</div>
+        <?php if(isset($SESSION_SUCCESS)): ?>
+          <div class="message bg-green-100 p-3 my-3"><?= $SESSION_SUCCESS ?></div>
+        <?php endif ?>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <?php foreach ($data['jobs'] as $job): ?>
+        <?php foreach ($jobs as $job): ?>
             <div class="rounded-lg shadow-md bg-white">
               <div class="p-4">
                 <h2 class="text-xl font-semibold"><?= $job['title'] ?></h2>
@@ -37,7 +40,7 @@
                     <?= $job['tags'] ?>
                   </li>
                 </ul>
-                <a href="details.html"
+                <a href="/listings/<?= $job['id'] ?>"
                   class="block w-full text-center px-5 py-2.5 shadow-sm rounded border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200"
                 >
                   Details
