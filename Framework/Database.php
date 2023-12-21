@@ -41,4 +41,13 @@ class Database
             throw new \PDOException($e->getMessage(), (int)$e->getCode());
         }
     }
+
+    public function insert(string $table, array $data) {
+        $fields = array_keys($data);
+        $values = ":" . implode(",:", $fields);
+        $fields = implode(",", $fields);
+
+        $sql = "INSERT INTO $table ($fields) VALUES ($values)";
+        self::getInstance()->query($sql, $data);
+    }
 }

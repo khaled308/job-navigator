@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controllers;
-use App\Validations\JobValidation;
 use Framework\Database;
 use Framework\Validation;
 
@@ -31,9 +30,7 @@ class JobController {
         )->fetch();
         
         if (!$job) {
-            http_response_code(404);
-            loadView('error');
-            exit();
+            ErrorController::notFound();
         }
 
         loadView('details', ['job' => $job]);
@@ -48,15 +45,33 @@ class JobController {
         $data['user_id'] = 1;
 
         $data = array_map('sanitize', $data);
-
-        $errors = Validation::validate($data, ['title' => 'required,min_length=5', 'description' => 'required,min_length=15']);
+        $errors = Validation::validate($data, 
+            ['title' => 'min_length=3', 'description' => 'min_length=15', "salary" => "required"
+        ]);
 
         if (!empty($errors)){
             loadView('post-job', ['errors' => $errors, 'data' => $data]);
         }
 
         else {
-
+            $this->db->insert("jobs", $data);
+            redirect("/listings");
         }
+    }
+
+    public function destroy($params = [], $queries = []) {
+        $jobId = $params['job'];
+        $job = $this->db->query(
+            'SELECT * FROM jobs WHERE id = ?',
+            [$jobId]
+        )->fetch();
+        
+        if (!$job) {
+            ErrorController::notFound();
+            return;
+        }
+
+        $this->db->query("DELETE FROM jobs WHERE id = ?", [$jobId]);
+        redirect("/listings");
     }
 }

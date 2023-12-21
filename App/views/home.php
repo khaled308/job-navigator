@@ -63,9 +63,7 @@
                   </li>
                   <li class="mb-2">
                     <strong>Tags:</strong>
-                    <?php foreach (explode(',', $job['tags']) as $tag): ?>
-                    <span><?= $tag ?></span>
-                    <?php endforeach; ?>
+                    <?= $job['tags'] ?>
                   </li>
                 </ul>
                 <a href="/listings/<?= $job['id'] ?>"

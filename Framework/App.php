@@ -13,7 +13,12 @@ class App
  
     public function run()
     {
-        $this->router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $method = $_SERVER['REQUEST_METHOD'];
+
+        if ($method === 'POST' && isset($_POST['_method']))
+            $method = $_POST['_method'];
+
+        $this->router->dispatch($method, $_SERVER['REQUEST_URI']);
     }
 
     public function getRouter() : Router
